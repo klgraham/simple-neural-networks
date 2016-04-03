@@ -2,8 +2,6 @@
 
 import UIKit
 
-//var str = "Hello, playground"
-
 // Perceptron
 
 let bias = 1.0
@@ -28,7 +26,7 @@ activate(bias, bW: biasWeight, x: x, w: w)
 
 struct Perceptron {
     var bias: Double
-    internal var offState: Int = 0
+    private var offState: Int = 0
     
     // weights[0] is the weight for the bias input
     var weights: [Double]
