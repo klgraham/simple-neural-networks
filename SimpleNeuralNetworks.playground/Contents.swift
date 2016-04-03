@@ -27,11 +27,12 @@ activate(bias, bW: biasWeight, x: x, w: w)
 struct Perceptron {
     var bias: Double
     private var offState: Int = 0
+    let learningRate = 0.01
     
     // weights[0] is the weight for the bias input
     var weights: [Double]
     
-    func activate(input: [Double]) -> Int {
+    func predict(input: [Double]) -> Int {
         assert(input.count + 1 == weights.count)
         
         var sum = 0.0
@@ -40,6 +41,15 @@ struct Perceptron {
         }
         sum += bias * weights[0]
         return (sum > 0) ? 1 : offState
+    }
+    
+    mutating func train(input: [Double], output: Int) {
+        let prediction = predict(input)
+        let error = output - prediction
+        
+        for i in 0..<weights.count {
+            weights[i] += learningRate * Double(error) * input[i]
+        }
     }
     
     init(numInputs: Int, offState: Int, bias: Double) {
@@ -60,7 +70,9 @@ struct Perceptron {
             weights.append(1.0 * (drand48() - 0.5))
         }
     }
+    
+    
 }
 
 var p = Perceptron(numInputs: 2, offState: -1, bias: 1)
-p.activate(x)
+p.predict(x)
