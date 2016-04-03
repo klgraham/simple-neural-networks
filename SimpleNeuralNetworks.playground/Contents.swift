@@ -32,7 +32,7 @@ struct Perceptron {
     // weights[0] is the weight for the bias input
     var weights: [Double]
     
-    func predict(input: [Double]) -> Int {
+    func feedForward(input: [Double]) -> Int {
         assert(input.count + 1 == weights.count)
         
         var sum = 0.0
@@ -43,8 +43,8 @@ struct Perceptron {
         return (sum > 0) ? 1 : offState
     }
     
-    mutating func train(input: [Double], output: Int) {
-        let prediction = predict(input)
+    mutating func backProp(input: [Double], output: Int) {
+        let prediction = feedForward(input)
         let error = output - prediction
         
         for i in 0..<weights.count {
@@ -70,9 +70,7 @@ struct Perceptron {
             weights.append(1.0 * (drand48() - 0.5))
         }
     }
-    
-    
 }
 
 var p = Perceptron(numInputs: 2, offState: -1, bias: 1)
-p.predict(x)
+p.feedForward(x)
